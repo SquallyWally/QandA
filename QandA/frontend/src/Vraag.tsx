@@ -3,13 +3,16 @@ import { FC } from 'react';
 /**@jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { VraagData } from './VragenData';
-import { gray3 } from './Styles';
+import { gray2, gray3 } from './Styles';
+import { Link } from 'react-router-dom';
 
 interface Props {
   data: VraagData;
+  showContent?: boolean;
 }
-/** pagina 108*/
-export const Vraag: FC<Props> = ({ data }) => (
+
+/** pagina 112*/
+export const Vraag: FC<Props> = ({ data, showContent = true }) => (
   <div
     css={css`
       padding: 10px 0px;
@@ -21,8 +24,29 @@ export const Vraag: FC<Props> = ({ data }) => (
         font-size: 20px;
       `}
     >
-      {data.title}
+      <Link
+        css={css`
+          text-decoration: none;
+          color: ${gray2};
+        `}
+        to={`vragen/${data.questionId}`}
+      >
+        {data.title}
+      </Link>
     </div>
+    {showContent && (
+      <div
+        css={css`
+          padding-bottom: 10px;
+          font-size: 15px;
+          color: ${gray2};
+        `}
+      >
+        {data.content.length > 50
+          ? `${data.content.substring(0, 50)}...`
+          : data.content}
+      </div>
+    )}
     <div
       css={css`
         font-size: 12px;

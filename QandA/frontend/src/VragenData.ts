@@ -1,3 +1,4 @@
+import { wait } from '@testing-library/react';
 import { AnswerData } from './AnswerData';
 
 export interface VraagData {
@@ -13,7 +14,7 @@ export interface VraagData {
 const vragen: VraagData[] = [
   {
     questionId: 1,
-    title: 'Waarom zou ik FF XIV: Shadowrbringers spelen?',
+    title: 'Waarom zou ik FF XIV: Shadowbringers spelen?',
     content:
       'Ik heb veel goeie dingen over dat uitbreiding gehoord en staat momenteel op 91 op Metacritic',
     userName: 'Cayde',
@@ -45,7 +46,22 @@ const vragen: VraagData[] = [
   },
 ];
 
+//Wacht async in millisecondes
+const wacht = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 //return vragen lijst zonder antwoorden
-export const getOpenstaandeVragen = (): VraagData[] => {
+export const getOpenstaandeVragen = async (): Promise<VraagData[]> => {
+  await wacht(500);
   return vragen.filter((q) => q.antwoorden.length === 0);
+};
+
+//haalt een enkel vraag op
+export const getVraag = async (
+  questionId: number,
+): Promise<VraagData | null> => {
+  await wacht(500);
+  const resultaten = vragen.filter((v) => v.questionId === questionId);
+  return resultaten.length === 0 ? null : resultaten[0];
 };

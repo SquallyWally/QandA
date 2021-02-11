@@ -20,6 +20,7 @@ export const PrimaireKnop = styled.button`
   font-size: ${fontSize};
   padding: 5px 10px;
   color: white;
+  box-shadow: 0 3px 7px 0 rgba(110, 112, 114, 0.21);
   cursor: pointer;
   ::hover {
     background-color: ${primary1};
