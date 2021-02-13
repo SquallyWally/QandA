@@ -7,6 +7,7 @@ import { RouteComponentProps as Router } from 'react-router-dom';
 import { css, jsx } from '@emotion/react';
 import { gray3, gray5, gray6 } from './Styles';
 import { getVraag, VraagData } from './VragenData';
+import { AntwoordenLijst } from './AntwoordenLijst';
 
 interface RouteParams {
   questionId: string;
@@ -50,6 +51,30 @@ export const QuestionPage: FC<Router<RouteParams>> = ({ match }) => {
         >
           {vraag === null ? '' : vraag.title}
         </div>
+        {vraag !== null && (
+          <Fragment>
+            <p
+              css={css`
+                margin-top: 0px;
+                background-color: white;
+              `}
+            >
+              {vraag.content}
+            </p>
+            <div
+              css={css`
+                font-size: 12px;
+                font-style: italic;
+                color: ${gray3};
+              `}
+            >
+              {`Gevraagd door ${
+                vraag.userName
+              } op ${vraag.created.toLocaleDateString()} ${vraag.created.toLocaleTimeString()}`}
+            </div>
+            <AntwoordenLijst data={vraag.antwoorden} />
+          </Fragment>
+        )}
       </div>
     </Page>
   );

@@ -5,8 +5,6 @@ import { PrimaireKnop } from './Styles';
 import { VragenLijst } from './VragenLijst';
 import { getOpenstaandeVragen, VraagData } from './VragenData';
 import { Page } from './Page';
-import { PageTitle } from './PageTitle';
-import { Vraag } from './Vraag';
 import { useEffect, useState, FC } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 

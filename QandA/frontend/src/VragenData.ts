@@ -1,5 +1,9 @@
-import { wait } from '@testing-library/react';
-import { AnswerData } from './AnswerData';
+export interface AntwoordData {
+  antwoordId: number;
+  content: string;
+  userName: string;
+  created: Date;
+}
 
 export interface VraagData {
   questionId: number;
@@ -7,7 +11,7 @@ export interface VraagData {
   content: string;
   userName: string;
   created: Date;
-  antwoorden: AnswerData[];
+  antwoorden: AntwoordData[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,6 +35,18 @@ const vragen: VraagData[] = [
         antwoordId: 2,
         content: 'Thancred. Nuff said',
         userName: 'Jane',
+        created: new Date(),
+      },
+      {
+        antwoordId: 3,
+        userName: 'Mister Smith',
+        content: ' Twee woorden, LA HEEEEEEEEEEE',
+        created: new Date(),
+      },
+      {
+        antwoordId: 4,
+        userName: 'Paolo',
+        content: 'Dit heeft niks te maken met eten?',
         created: new Date(),
       },
     ],
@@ -64,4 +80,13 @@ export const getVraag = async (
   await wacht(500);
   const resultaten = vragen.filter((v) => v.questionId === questionId);
   return resultaten.length === 0 ? null : resultaten[0];
+};
+
+export const zoekVragen = async (criteria: string): Promise<VraagData[]> => {
+  await wacht(500);
+  return vragen.filter(
+    (v) =>
+      v.title.toLowerCase().indexOf(criteria.toLowerCase()) >= 0 ||
+      v.content.toLowerCase().indexOf(criteria.toLowerCase()) >= 0,
+  );
 };
