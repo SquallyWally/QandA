@@ -24,6 +24,7 @@ export const Vraag: FC<Props> = ({ data, showContent = true }) => (
         font-size: 20px;
       `}
     >
+      {/* Hier gebeurt het logica wanneer je een vraag klikt die dan direct verwijst naar alle antwoorden */}
       <Link
         css={css`
           text-decoration: none;
