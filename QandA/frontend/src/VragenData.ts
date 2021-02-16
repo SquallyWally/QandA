@@ -4,7 +4,12 @@ export interface AntwoordData {
   userName: string;
   created: Date;
 }
-
+export interface PostAntwoordData {
+  questionId: number;
+  content: string;
+  userName: string;
+  created: Date;
+}
 export interface VraagData {
   questionId: number;
   title: string;
@@ -12,6 +17,13 @@ export interface VraagData {
   userName: string;
   created: Date;
   antwoorden: AntwoordData[];
+}
+
+export interface PostVraagData {
+  title: string;
+  content: string;
+  userName: string;
+  created: Date;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -89,4 +101,30 @@ export const zoekVragen = async (criteria: string): Promise<VraagData[]> => {
       v.title.toLowerCase().indexOf(criteria.toLowerCase()) >= 0 ||
       v.content.toLowerCase().indexOf(criteria.toLowerCase()) >= 0,
   );
+};
+
+//Functie dat een vraag verzend simuleert
+export const postVraag = async (
+  vraag: PostVraagData,
+): Promise<VraagData | undefined> => {
+  await wacht(500);
+  const questionId = Math.max(...vragen.map((v) => v.questionId)) + 1;
+  const newVraag: VraagData = {
+    ...vraag,
+    questionId,
+    antwoorden: [],
+  };
+  vragen.push(newVraag);
+  return newVraag;
+};
+
+//Simuleert het verzenden van een antwoord
+export const postAntwoord = async (
+  antwoord: PostAntwoordData,
+): Promise<AntwoordData | undefined> => {
+  await wacht(500);
+  const vraag = vragen.filter((v) => v.questionId === antwoord.questionId)[0];
+  const antwoordInEenVraag: AntwoordData = { antwoordId: 99, ...antwoord };
+  vraag.antwoorden.push(antwoordInEenVraag);
+  return antwoordInEenVraag;
 };
