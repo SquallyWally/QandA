@@ -19,7 +19,7 @@ import { fontFamily, fontSize, gray2 } from './Styles';
 import { QuestionPage } from './QuestionPage';
 const VraagPage = lazy(() => import('./VraagPage'));
 
-//pag 168
+//pag 183
 function App() {
   //debugger;
   return (

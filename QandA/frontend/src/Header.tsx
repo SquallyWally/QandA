@@ -3,7 +3,7 @@ import { UserIcon } from './Icons';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { fontFamily, fontSize, gray1, gray2, gray5 } from './Styles';
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useState, FormEvent } from 'react';
 import {
   Link,
   RouteComponentProps as RouteProp,
@@ -21,6 +21,12 @@ export const Header: FC<RouteProp> = ({ history, location }) => {
     setZoek(e.currentTarget.value); //zodat het zoekbar werkt volgens React
     console.log(e.currentTarget.value);
   };
+
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    history.push(`/zoek?criteria=${zoek}`);
+  };
+
   return (
     <div
       css={css`
@@ -38,7 +44,7 @@ export const Header: FC<RouteProp> = ({ history, location }) => {
       `}
     >
       <Link
-        to="./"
+        to="/"
         css={css`
           font-size: 24px;
           font-weight: bold;
@@ -48,7 +54,7 @@ export const Header: FC<RouteProp> = ({ history, location }) => {
       >
         Garbage Donkey
       </Link>
-      <form>
+      <form onSubmit={handleSearchSubmit}>
         <input
           type="text"
           placeholder="Zoek..."

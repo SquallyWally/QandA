@@ -21,6 +21,7 @@ export const Antwoord: FC<Props> = ({ data }) => (
         font-size: 13px;
       `}
     >
+      {/* Hier wordt het content van het antwoord weergeven */}
       {data.content}
     </div>
     <div

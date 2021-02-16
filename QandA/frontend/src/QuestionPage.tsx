@@ -1,13 +1,14 @@
 import React, { FC, useState, Fragment, useEffect } from 'react';
 import { Page } from './Page';
 import { RouteComponentProps as Router } from 'react-router-dom';
-
 /** @jsxRuntime classic */
 /**@jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { gray3, gray5, gray6 } from './Styles';
-import { getVraag, VraagData } from './VragenData';
+import { getVraag, VraagData, postAntwoord } from './VragenData';
 import { AntwoordenLijst } from './AntwoordenLijst';
+import { Form, minLength, required, Waardes } from './Form';
+import { Field } from './Field';
 
 interface RouteParams {
   questionId: string;
@@ -30,6 +31,17 @@ export const QuestionPage: FC<Router<RouteParams>> = ({ match }) => {
       doGetVraag(questionId);
     }
   }, [match.params.questionId]);
+
+  const handleSubmit = async (w: Waardes) => {
+    const res = await postAntwoord({
+      questionId: vraag!.questionId,
+      content: w.content,
+      userName: 'Rey',
+      created: new Date(),
+    });
+
+    return { success: res ? true : false };
+  };
 
   return (
     <Page>
@@ -73,6 +85,26 @@ export const QuestionPage: FC<Router<RouteParams>> = ({ match }) => {
               } op ${vraag.created.toLocaleDateString()} ${vraag.created.toLocaleTimeString()}`}
             </div>
             <AntwoordenLijst data={vraag.antwoorden} />
+            <div
+              css={css`
+                margin-top: 20px;
+              `}
+            >
+              <Form
+                submitCaption="Stel uw antwoord"
+                validationRules={{
+                  content: [
+                    { validator: required },
+                    { validator: minLength, arg: 50 },
+                  ],
+                }}
+                onSubmit={handleSubmit}
+                failureMessage="Lmao"
+                successMessage="Nice"
+              >
+                <Field name="content" label="Jou antwoord" type="TextArea" />
+              </Form>
+            </div>
           </Fragment>
         )}
       </div>
