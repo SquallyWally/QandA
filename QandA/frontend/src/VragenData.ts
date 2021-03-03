@@ -26,7 +26,6 @@ export interface PostVraagData {
   created: Date;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const vragen: VraagData[] = [
   {
     questionId: 1,

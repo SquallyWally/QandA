@@ -11,7 +11,6 @@ interface Props {
   showContent?: boolean;
 }
 
-/** pagina 112*/
 export const Vraag: FC<Props> = ({ data, showContent = true }) => (
   <div
     css={css`

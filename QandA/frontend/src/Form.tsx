@@ -44,7 +44,8 @@ export interface SubmitResult {
 interface Props {
   submitCaption?: string;
   validationRules?: ValidationProp;
-  onSubmit: (waardes: Waardes) => Promise<SubmitResult>;
+  onSubmit: (waardes: Waardes) => Promise<SubmitResult> | void;
+  submitResult?: SubmitResult;
   successMessage?: string;
   failureMessage?: string;
 }
@@ -71,6 +72,7 @@ export const Form: FC<Props> = ({
   children,
   validationRules,
   onSubmit,
+  submitResult,
   successMessage = 'Success!',
   failureMessage = 'Something went wrong, what a failure',
 }) => {
@@ -124,6 +126,13 @@ export const Form: FC<Props> = ({
       // call the consumer submit functiom
       setSubmitError(false);
       const result = await onSubmit(waardes);
+
+      //if the result may be passed through as a prop
+
+      if (result === undefined) {
+        return;
+      }
+
       setErrors(result.errors || {});
       setSubmitError(!result.success);
 
@@ -150,6 +159,17 @@ export const Form: FC<Props> = ({
     return !haveError;
   };
 
+  const disabled = submitResult
+    ? submitResult.success
+    : submitting || (!submitError && submitted);
+
+  const showError = submitResult
+    ? !submitResult.success
+    : submitError && submitted;
+
+  const showSuccess = submitResult
+    ? submitResult.success
+    : !submitError && submitted;
   return (
     //   Met Provider geeft de Chldren components van het form toegang
     //Dus het gehele form kan worden gebruikt door bestanden dat FormContext importeert
@@ -170,7 +190,7 @@ export const Form: FC<Props> = ({
       <form noValidate={true} onSubmit={handleSubmit}>
         <fieldset
           // disable the form when submission is in progress OR succesfully submitted
-          disabled={submitting || (submitted && !submitError)}
+          disabled={disabled}
           css={css`
             margin: 10px auto 0 auto;
             padding: 30px;
@@ -191,7 +211,7 @@ export const Form: FC<Props> = ({
           >
             <PrimaireKnop type="submit">{submitCaption}</PrimaireKnop>
           </div>
-          {submitted && submitError && (
+          {showError && (
             <p
               css={css`
                 color: red;
@@ -200,7 +220,7 @@ export const Form: FC<Props> = ({
               {failureMessage}
             </p>
           )}
-          {submitted && !submitError && (
+          {showSuccess && (
             <p
               css={css`
                 color: green;

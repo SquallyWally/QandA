@@ -7,24 +7,40 @@ import { getOpenstaandeVragen, VraagData } from './VragenData';
 import { Page } from './Page';
 import { useEffect, useState, FC } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import { GetOpenVragenActionCreator, AppState } from './Store';
 
-/**const renderVraag = (vraag: VraagData) => <div> {vraag.title}</div>;*/
+//pag 231
+interface Props extends RouteComponentProps {
+  getOpenstaandeVragen: () => Promise<void>;
+  vragen: VraagData[] | null;
+  vragenLaden: boolean;
+}
+//Thunk returns a function instead of an action, like delaying dispatches
+const HomePage: FC<Props> = ({
+  history,
+  vragen,
+  vragenLaden,
+  getOpenstaandeVragen,
+}) => {
+  // const [vragen, setVragen] = useState<VraagData[] | null>(null);
 
-//Pagina 146
-
-export const HomePage: FC<RouteComponentProps> = ({ history }) => {
-  const [vragen, setVragen] = useState<VraagData[] | null>(null);
-
-  const [vragenLoaden, setVragenLaden] = useState(true);
+  // const [vragenLaden, setVragenLaden] = useState(true);
 
   useEffect(() => {
-    const dogetOpenstaandeVragen = async () => {
-      const openStaandeVragen = await getOpenstaandeVragen();
-      setVragen(openStaandeVragen);
-      setVragenLaden(false);
-    };
-    dogetOpenstaandeVragen();
-  });
+    // const dogetOpenstaandeVragen = async () => {
+    //   const openStaandeVragen = await getOpenstaandeVragen();
+    //   setVragen(openStaandeVragen);
+    //   setVragenLaden(false);
+    // };
+    if (vragen === null) {
+      getOpenstaandeVragen();
+    }
+
+    // dogetOpenstaandeVragen();
+  }, [vragen, getOpenstaandeVragen]);
   //console.log('rendered donkey');
 
   const handleStelVraagClick = () => {
@@ -85,7 +101,7 @@ export const HomePage: FC<RouteComponentProps> = ({ history }) => {
           </PrimaireKnop>
         </div>{' '}
       </div>
-      {vragenLoaden ? (
+      {vragenLaden ? (
         <div
           css={css`
             font-size: 16px;
@@ -100,3 +116,21 @@ export const HomePage: FC<RouteComponentProps> = ({ history }) => {
     </Page>
   );
 };
+
+//Takes the store state and returns the vragen en vragenLaden props that are req
+//by the component
+const mapStateToProps = (store: AppState) => {
+  return {
+    vragen: store.vragen.onbeantwoord,
+    vragenLoaden: store.vragen.laden,
+  };
+};
+
+//Dispatch and maps the action creotr to get open vragen into the comp prop
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    getOpenstaandeVragen: () => dispatch(GetOpenVragenActionCreator()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

@@ -19,12 +19,13 @@ export const Header: FC<RouteProp> = ({ history, location }) => {
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setZoek(e.currentTarget.value); //zodat het zoekbar werkt volgens React
+
     console.log(e.currentTarget.value);
   };
 
   const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    history.push(`/zoek?criteria=${zoek}`);
+    history.push(`/zoek?criteria=${zoek}`); //zorgt ervoor dat de zoekbalk redirect
   };
 
   return (
