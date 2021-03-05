@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace QandA
 {
+    //Pagina 245 met SSMS
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -31,7 +32,7 @@ namespace QandA
             else
             {
                 app.UseHttpsRedirection(); //zodat dit niet word gebruikt tijdens het ontwikkelfase, anders gaat Firefox moeilijk doen
-                //in verband met HTTP 
+                //in verband met HTTP
             }
 
             app.UseRouting();
