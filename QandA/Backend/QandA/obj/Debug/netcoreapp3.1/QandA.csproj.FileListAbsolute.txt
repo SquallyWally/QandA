@@ -26,3 +26,7 @@ E:\React_ASP_TS_Projects\QandA\Backend\QandA\obj\Debug\netcoreapp3.1\QandA.cspro
 E:\React_ASP_TS_Projects\QandA\Backend\QandA\obj\Debug\netcoreapp3.1\QandA.dll
 E:\React_ASP_TS_Projects\QandA\Backend\QandA\obj\Debug\netcoreapp3.1\QandA.pdb
 E:\React_ASP_TS_Projects\QandA\Backend\QandA\obj\Debug\netcoreapp3.1\QandA.genruntimeconfig.cache
+E:\React_ASP_TS_Projects\QandA\Backend\QandA\bin\Debug\netcoreapp3.1\dbup-core.dll
+E:\React_ASP_TS_Projects\QandA\Backend\QandA\bin\Debug\netcoreapp3.1\dbup-sqlserver.dll
+E:\React_ASP_TS_Projects\QandA\Backend\QandA\bin\Debug\netcoreapp3.1\Microsoft.Azure.Services.AppAuthentication.dll
+E:\React_ASP_TS_Projects\QandA\Backend\QandA\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Clients.ActiveDirectory.dll

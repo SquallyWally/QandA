@@ -7,6 +7,7 @@ namespace QandA.Data
 {
     public class DataRepository : IDataRepository
     {
+        //Pagina 267
         private readonly string _connString;
 
         public DataRepository(IConfiguration config)
@@ -45,7 +46,7 @@ namespace QandA.Data
             }
         }
 
-        //260
+
         public VraagGetSingleReactie GetVraag(int vraagId)
         {
             using (var conn = new SqlConnection(_connString))
@@ -53,7 +54,10 @@ namespace QandA.Data
                 conn.Open();
                 var vraag = conn.QueryFirstOrDefault<VraagGetSingleReactie>
                     (@"EXEC dbo.Vraag.GetEnkel @VraagId = @VraagId", new { VraagId = vraagId });
-                //todo-get antwoorden
+               
+                vraag.Antwoorden = conn.Query<AntwoordGetReactie>
+                    (@"EXEC dbo.Antwoord_Get_ByVraagId
+                     @VraagId = @VraagId", new { VraagId = vraagId });
 
                 if (vraag != null)
                 {
@@ -86,6 +90,7 @@ namespace QandA.Data
             }
         }
 
+        //266
         public bool VraagBestaat(int vraagId)
         {
             using (var conn = new SqlConnection(_connString))
@@ -128,6 +133,7 @@ namespace QandA.Data
             }
         }
 
+      
         public VraagGetSingleReactie PutVraag(int vraagId, VraagPutRequest vraag)
         {
             using (var conn = new SqlConnection(_connString))
