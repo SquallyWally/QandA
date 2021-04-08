@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace QandA.Data
 {
-    public class VraagGetSingleReactie 
-        //Matches with Vraag_GetEnkel procedure
+    public class VraagGetSingleReactie
+    //Matches with Vraag_GetEnkel procedure
     {
         public IEnumerable<AntwoordGetReactie> Antwoorden { get; internal set; }
         public int VraagId { get; set; }

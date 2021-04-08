@@ -2,12 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using QandA.Data.Models;
 
 namespace QandA.Data
 {
     public class DataRepository : IDataRepository
     {
-        //Pagina 267
         private readonly string _connString;
 
         public DataRepository(IConfiguration config)
@@ -46,23 +46,18 @@ namespace QandA.Data
             }
         }
 
-
         public VraagGetSingleReactie GetVraag(int vraagId)
         {
             using (var conn = new SqlConnection(_connString))
             {
                 conn.Open();
                 var vraag = conn.QueryFirstOrDefault<VraagGetSingleReactie>
-                    (@"EXEC dbo.Vraag.GetEnkel @VraagId = @VraagId", new { VraagId = vraagId });
-               
-                vraag.Antwoorden = conn.Query<AntwoordGetReactie>
-                    (@"EXEC dbo.Antwoord_Get_ByVraagId
-                     @VraagId = @VraagId", new { VraagId = vraagId });
+                    (@"EXEC dbo.Vraag_GetEnkel @VraagId = @VraagId", new { VraagId = vraagId });
 
                 if (vraag != null)
                 {
                     vraag.Antwoorden = conn.Query<AntwoordGetReactie>
-                        (@"EXEC dbo.Antwoord.Get_ByVraagId @VraagId = @VraagId", new { VraagId = vraagId });
+                        (@"EXEC dbo.Antwoord_Get_ByVraagId @VraagId = @VraagId", new { VraagId = vraagId });
                 }
 
                 return vraag;
@@ -90,7 +85,6 @@ namespace QandA.Data
             }
         }
 
-        //266
         public bool VraagBestaat(int vraagId)
         {
             using (var conn = new SqlConnection(_connString))
@@ -100,22 +94,22 @@ namespace QandA.Data
             }
         }
 
-        public AntwoordGetReactie PostAntwoord(AntwoordPostRequest antwoord)
+        public AntwoordGetReactie PostAntwoord(AntwoordPostFullRequest antwoord)
         {
             using (var conn = new SqlConnection(_connString))
             {
                 conn.Open();
                 return conn.QueryFirst<AntwoordGetReactie>(@"EXEC dbo.Antwoord_Post
-                                                            @VraagId = vraagId,
+                                                            @VraagId = @VraagId,
                                                             @Content = @Content,
                                                             @UserId = @UserId,
                                                             @UserName = @UserName,
-                                                            @Created = @Created,
+                                                            @Created = @Created
                                                             ", antwoord);
             }
         }
 
-        public VraagGetSingleReactie PostVraag(VraagPostRequest vraag)
+        public VraagGetSingleReactie PostVraag(VraagPostFullRequest vraag)
         {
             using (var conn = new SqlConnection(_connString))
             {
@@ -133,7 +127,6 @@ namespace QandA.Data
             }
         }
 
-      
         public VraagGetSingleReactie PutVraag(int vraagId, VraagPutRequest vraag)
         {
             using (var conn = new SqlConnection(_connString))

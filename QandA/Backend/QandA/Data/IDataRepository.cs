@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using QandA.Data.Models;
+using System.Collections.Generic;
 
 namespace QandA.Data
 {
@@ -16,12 +17,12 @@ namespace QandA.Data
 
         AntwoordGetReactie GetAntwoord(int antwoordId);
 
-        VraagGetSingleReactie PostVraag(VraagPostRequest vraag);
+        VraagGetSingleReactie PostVraag(VraagPostFullRequest vraag);
 
         VraagGetSingleReactie PutVraag(int vraagId, VraagPutRequest vraag);
 
         void DeleteVraag(int vraagId);
 
-        AntwoordGetReactie PostAntwoord(AntwoordPostRequest antwoord);
+        AntwoordGetReactie PostAntwoord(AntwoordPostFullRequest antwoord);
     }
 }
